@@ -1,1 +1,119 @@
+:root {
+    --font-size-base: 16px;
+    /* Base font size (1rem) */
+    --font-size-mid: 1.5rem;
+    /* Middle size between base and large */
+    --font-size-lg: 2rem;
+    /* Large font size */
+    --font-size-xl: 3rem;
+    /* Extra large font size */
+    --font-size-xxl: 4rem;
+    --font-size-xxxl: 5rem;
+    --font-family: monospace;
+    /* Font family */
+    --background-color: #f4f4f4;
+    /* Background color */
+    --primary-color: #333;
+    /* Primary text color */
+}
 
+
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-size: var(--font-size-base);
+    height: 100%;
+
+    background-color: #f4f4f4;
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.calc {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    /* background-color: black; */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.expression-result-container {
+    box-sizing: border-box;
+    border: 1px solid green;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-size-xxl);
+    padding: 5px;
+    /* color: white; */
+    user-select: none;
+    /* cursor: pointer; */
+
+}
+
+.expression-dis {
+    font-size: var(--font-size-lg);
+}
+
+.dis {
+    text-align: end;
+    border: 2px solid red;
+    box-sizing: border-box;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.dis {
+    width: 100%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    font-size: var(--font-size-mid);
+    height: var(--font-size-xxxl);
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    border: none;
+    user-select: none;
+    cursor: pointer;
+    color: white;
+    background-color: #333;
+}
+
+.operators-btn {
+    background-color: rgb(160, 97, 2);
+}
+
+.clear,
+.backspace,
+.percent {
+    background-color: gray;
+}
