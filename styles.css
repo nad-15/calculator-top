@@ -60,7 +60,7 @@ body {
 
 .expression-result-container {
     box-sizing: border-box;
-    border: 1px solid green;
+    /* border: 1px solid green; */
     margin-left: 10px;
     margin-right: 10px;
     width: 100%;
@@ -82,7 +82,7 @@ body {
 
 .dis {
     text-align: end;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     box-sizing: border-box;
     margin-left: 10px;
     margin-right: 10px;
@@ -108,7 +108,7 @@ body {
     background-color: #333;
 }
 
-.operators-btn {
+.operators {
     background-color: rgb(160, 97, 2);
 }
 
@@ -117,3 +117,9 @@ body {
 .percent {
     background-color: gray;
 }
+
+
+@media (max-width: 600px) {
+    
+  }
+  
