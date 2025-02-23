@@ -33,11 +33,14 @@ let expressionArr = [];
 
 
 clearButton.addEventListener(`click`, () => {
-    expressionArr.length = 0;
+    expressionArr = [];
+    isOperator = false;
+    isDecimal = false;
     expressionDisplay.textContent = '0';
 });
 
 backspaceButton.addEventListener(`click`, ()=>{
+    //get last element then manipulate then insert
     expressionArr.pop();
     expressionDisplay.textContent = expressionArr.join(``);
 
@@ -47,16 +50,17 @@ backspaceButton.addEventListener(`click`, ()=>{
 operators.forEach(operator => {
     operator.addEventListener(`click`, (e) => {
         const operator = e.target.textContent;
+        isDecimal = false;
         if (!isOperator) {
             expressionArr.push(operator);
             expressionDisplay.textContent = expressionArr.join(``);
-            isOperator = true;
-        } else {
-            console.log(expressionArr);
+        } else if (isNaN(expressionArr[expressionArr.length-1])) {
+            // console.log(expressionArr);
             expressionArr.pop();
             expressionArr.push(operator);
             expressionDisplay.textContent = expressionArr.join(``);
         }
+        isOperator=true;
     });
 });
 
@@ -70,21 +74,46 @@ numbers.forEach(number => {
 });
 
 function getNumber(e) {
-    isOperator = false;
     const number = e.target.textContent;
-    console.log(number);
+    // console.log(number);
     if (number === `0`) {
         // do zero logic here
+        if(isNaN(expressionArr[expressionArr.length - 1]) || expressionArr[expressionArr.length - 1] === `0`) {
+            if((expressionArr[expressionArr.length - 1]) === `0`) {
+                expressionArr.pop();
+            }
+            expressionArr.push(number.toString());
+        } else {
+            expressionArr[expressionArr.length - 1] += number.toString();
+        }
+        expressionDisplay.textContent = expressionArr.join(``);
 
     } else if (number === `.`){
-        //decimal logic here
-        
+        //decimal logic here   
+        if(!isDecimal) {
+            if(isNaN(expressionArr[expressionArr.length - 1]) || !expressionArr) {
+                expressionArr.push(`0.`);
+            } else {
+                expressionArr[expressionArr.length - 1] += number.toString();
+            }
+        }
+        expressionDisplay.textContent = expressionArr.join(``);
         isDecimal = true;
 
-    } else {
-        expressionArr.push(number);
-        expressionDisplay.textContent = expressionArr.join('');
+    } else{ //is `real` number
+        if (!isNaN(expressionArr[expressionArr.length - 1]) && (expressionArr[expressionArr.length - 1]) !== `0`) {
+            expressionArr[expressionArr.length - 1] += number.toString();
+        } else {
+            if((expressionArr[expressionArr.length - 1]) === `0`) {
+                expressionArr.pop();
+            }
+            expressionArr.push(number.toString());
+        }
+        expressionDisplay.textContent = expressionArr.join(``);
+        console.log(expressionArr);
     }
+
+    isOperator = false;
 }
 
 
