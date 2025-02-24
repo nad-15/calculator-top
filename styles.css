@@ -36,6 +36,8 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: #f0f0f0;
+    font-family: 'Roboto Mono', monospace;
+
 }
 
 .calc {
@@ -60,6 +62,7 @@ body {
 }
 
 .expression-result-container {
+
     box-sizing: border-box;
     /* border: 1px solid green; */
     margin-left: 10px;
@@ -72,7 +75,7 @@ body {
     font-size: var(--font-size-xxl);
     padding: 5px;
     /* color: white; */
-    user-select: none;
+    /* user-select: none; */
 }
 
 .expression-dis {
@@ -80,6 +83,8 @@ body {
 }
 
 .dis {
+    font-family: 'Roboto Mono', monospace;
+    /* letter-spacing: 1px; */
     text-align: end;
     /* border: 2px solid red; */
     width: 100%;
@@ -90,6 +95,7 @@ body {
 
 
 .buttons {
+    font-family: 'Roboto Mono', monospace;
     display: flex;
     justify-content: center;
     align-items: center;
