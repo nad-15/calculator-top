@@ -18,13 +18,17 @@
 
 // const negateButton = document.getElementById('negateButton');
 // const decimalPoint = document.getElementById('decimal-point');
-// const equals = document.getElementById('equals');
+const equals = document.getElementById('equals');
 
 
 
+
+// TO DO
 // store numbers and pseudo numbers e.g. 7%, (9) as elements
 // do not use isOperator anymore-use last element
-//create a regex function that evaluates (-9) as a number and alsp 9%
+//create a regex function that evaluates (-9) as a number and also 9%
+
+
 const clearButton = document.getElementById('clearButton');
 const backspaceButton = document.getElementById('backspaceButton');
 const numbers = document.querySelectorAll('.numbers');
@@ -32,11 +36,14 @@ const operators = document.querySelectorAll(`.operators`);
 const expressionDisplay = document.querySelector('.expression-dis');
 const resultDisplay = document.querySelector('.result-dis');
 
+
+
+
 let isOperator = false;
 let isDecimal = false;
 let isPercent = false;
 let expressionArr = [];
-
+let resultArr;
 
 clearButton.addEventListener(`click`, () => {
     expressionArr = [];
@@ -44,6 +51,7 @@ clearButton.addEventListener(`click`, () => {
     isDecimal = false;
     isPercent = false;
     expressionDisplay.textContent = '';
+    resultDisplay.textContent='';
 });
 
 backspaceButton.addEventListener(`click`, () => {
@@ -58,23 +66,78 @@ operators.forEach(operator => {
     operator.addEventListener(`click`, (e) => {
         if (!expressionArr.length) return; //empty array
         const operator = e.target.dataset.value;
-        //isNaN(expressionArr[expressionArr.length - 1])
-        if (isOperator) { 
+        let lastElement = expressionArr[expressionArr.length - 1];
+
+        if (isNaN(cleanNumber(lastElement))) {
             // console.log(expressionArr);
             expressionArr.pop();
         }
 
         expressionArr.push(operator);
         expressionDisplay.textContent = expressionArr.join(``);
-        isPercent=false;
+        isPercent = false;
         isOperator = true;
         isDecimal = false;
     });
 });
 
-function performOperation() {
-    //resultDisplay here
+
+function performCalculation(num1, operator, num2) {
+    if (operator === '×') return num1 * num2;
+    if (operator === '÷') return num1 / num2;
+    if (operator === '+') return num1 + num2;
+    if (operator === '-') return num1 - num2;
 }
+
+function evaluateExpression() {
+    //resultDisplay here
+    resultArr = [...expressionArr];
+    let i = 1;
+    while (i < resultArr.length) {
+        if (resultArr[i] === '×' || resultArr[i] === '÷') {
+            let num1 = cleanNumber(resultArr[i - 1]);
+            let operator = resultArr[i];
+            let num2 = cleanNumber(resultArr[i + 1]);
+    
+            let result = performCalculation(num1, operator, num2);
+    
+            resultArr.splice(i - 1, 3, result); 
+            i-=2;
+        }
+        i += 2;
+    }
+    
+    console.log(resultArr);
+    console.log( resultArr.length);
+    i = 1;
+    
+    while (i < resultArr.length) {
+        if (resultArr[i] === '+' || resultArr[i] === '-') {
+            let num1 = cleanNumber(resultArr[i - 1]);
+            let operator = resultArr[i];
+            let num2 = cleanNumber(resultArr[i + 1]);
+    
+            let result = performCalculation(num1, operator, num2);
+    
+            resultArr[i - 1] = result;
+            resultArr.splice(i - 1, 3, result); 
+            i-=2;
+
+
+        }
+        i += 2;
+        console.log(`This ${i}`);
+        console.log(`This ${resultArr}`);
+        console.log( `This ${resultArr.length}`);
+        // max=resultArr.length;
+    }
+    
+}
+
+equals.addEventListener(`click`,()=> {
+    evaluateExpression();
+    resultDisplay.textContent = resultArr.join(``);
+});
 
 
 numbers.forEach(number => {
@@ -83,7 +146,7 @@ numbers.forEach(number => {
 
 function getNumber(e) {
     const number = e.target.dataset.value;
-    if((String(expressionArr[expressionArr.length - 1]).endsWith(')') || String(expressionArr[expressionArr.length - 1]).endsWith('%')) && (number !== `%`&& number !== `±` )){
+    if ((String(expressionArr[expressionArr.length - 1]).endsWith(')') || String(expressionArr[expressionArr.length - 1]).endsWith('%')) && (number !== `%` && number !== `±`)) {
         const multiply = document.getElementById('multiply');
         const event = new Event('click', { bubbles: true });
         multiply.dispatchEvent(event);
@@ -95,11 +158,11 @@ function getNumber(e) {
             if ((expressionArr[expressionArr.length - 1]) === `0`) {
                 expressionArr.pop();
             }
-        // if(String(expressionArr[expressionArr.length - 1]).endsWith(')') || String(expressionArr[expressionArr.length - 1]).endsWith('%')){
-        //     const multiply = document.getElementById('multiply');
-        //     const event = new Event('click', { bubbles: true });
-        //     multiply.dispatchEvent(event);
-        // }
+            // if(String(expressionArr[expressionArr.length - 1]).endsWith(')') || String(expressionArr[expressionArr.length - 1]).endsWith('%')){
+            //     const multiply = document.getElementById('multiply');
+            //     const event = new Event('click', { bubbles: true });
+            //     multiply.dispatchEvent(event);
+            // }
             expressionArr.push(number.toString());
         } else {
             expressionArr[expressionArr.length - 1] += number.toString();
@@ -132,13 +195,13 @@ function getNumber(e) {
         //     multiply.dispatchEvent(event);
         // }
 
-        if(!expressionArr.length > 0) return;
+        if (!expressionArr.length > 0) return;
 
         let lastElement = expressionArr[expressionArr.length - 1];
-        
+
         if (lastElement.startsWith('(-') && lastElement.endsWith(')')) {
             expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
-        } else if(!isNaN(cleanNumber(lastElement))){
+        } else if (!isNaN(cleanNumber(lastElement))) {
             expressionArr[expressionArr.length - 1] = `(-${lastElement})`;
         } else {
             return;
@@ -146,7 +209,7 @@ function getNumber(e) {
         expressionDisplay.textContent = expressionArr.join(``);
         console.log(`entered negation`);
 
-    } else if (number === `%` ) {
+    } else if (number === `%`) {
         // if(String(expressionArr[expressionArr.length - 1]).endsWith(')')){
         //     const multiply = document.getElementById('multiply');
         //     const event = new Event('click', { bubbles: true });
@@ -155,7 +218,7 @@ function getNumber(e) {
         //     // return;
 
         // }
-        if(isPercent || isNaN(cleanNumber(expressionArr[expressionArr.length - 1]))){
+        if (isPercent || isNaN(cleanNumber(expressionArr[expressionArr.length - 1]))) {
             return;
         }
         console.log(`percent`);
@@ -171,7 +234,7 @@ function getNumber(e) {
             if ((expressionArr[expressionArr.length - 1]) === `0`) {
                 expressionArr.pop();
             }
-            
+
             // if (String(expressionArr[expressionArr.length - 1]).endsWith('%') || (expressionArr.length > 0 &&  String(expressionArr[expressionArr.length - 1]).endsWith(')'))) {
             //     // expressionArr.push('x'); // if 0 is next not working (-6)0. also if force multiply operator gets 65%x+ 9%6
             //     const multiply = document.getElementById('multiply');
@@ -190,8 +253,14 @@ function getNumber(e) {
 }
 
 
-function cleanNumber(lastElement) {
-    return lastElement.replace(/[()%]/g, '');
+function cleanNumber(value) {
+    let extractedNum = String(value).replace(/[()%]/g, '');
+
+    if (String(value).includes('%')) {
+        extractedNum = parseFloat(extractedNum) / 100;
+    }
+
+    return parseFloat(extractedNum);
 }
 
 
@@ -199,3 +268,6 @@ function cleanNumber(lastElement) {
 //EDGE CASES
 // 7%(auto)x click 7 then divid will result to 7%x/
 //9 % click negate result is 9%x
+
+
+//add square root and 1/x xsquared
