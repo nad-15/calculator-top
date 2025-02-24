@@ -52,6 +52,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: min-content;
+    flex-grow: 0;
 }
 
 .row {
@@ -72,15 +73,26 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: var(--font-size-xxl);
+
     padding: 5px;
     /* color: white; */
     /* user-select: none; */
 }
 
+.result-dis {
+    font-size: var(--font-size-xxl);
+    height: 5rem;
+    flex-grow: 0;
+    border: 1px solid gray;
+}
+
+
 .dis.expression-dis {
     font-size: var(--font-size-lg);
     text-align: start;
+    height: 3rem;
+    min-height: 3rem;
+    border: 1px solid gray;
 }
 
 .dis {
@@ -116,10 +128,22 @@ body {
     background-color: rgb(160, 97, 2);
 }
 
-.clear,
-.backspace,
-.percent {
+.modifiers {
     background-color: gray;
+}
+
+.clear,
+.backspace {
+    background-color: #703302;
+}
+
+.equals {
+    border-radius: 2.5rem;
+    flex: 2;
+}
+
+.decimal-point {
+    background-color: #333;
 }
 
 
