@@ -49,6 +49,7 @@ body {
     /* background-color: black; */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: min-content;
 }
 
 .row {
@@ -72,8 +73,6 @@ body {
     padding: 5px;
     /* color: white; */
     user-select: none;
-    /* cursor: pointer; */
-
 }
 
 .expression-dis {
@@ -83,14 +82,12 @@ body {
 .dis {
     text-align: end;
     /* border: 2px solid red; */
+    width: 100%;
     box-sizing: border-box;
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.dis {
-    width: 100%;
-}
 
 .buttons {
     display: flex;
@@ -119,7 +116,4 @@ body {
 }
 
 
-@media (max-width: 600px) {
-    
-  }
-  
+@media (max-width: 600px) {}
