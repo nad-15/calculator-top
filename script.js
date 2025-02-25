@@ -85,7 +85,7 @@ equals.addEventListener(`click`, () => {
 
     const equalsHis = document.createElement(`div`);
     equalsHis.classList.add(`equals-h`);
-    equalsHis.textContent = "="; // If you want to display an equals sign
+    equalsHis.textContent = "=";
 
     const answerHis = document.createElement(`div`);
     answerHis.classList.add(`ans-h`);
@@ -98,7 +98,6 @@ equals.addEventListener(`click`, () => {
     historyContainer.appendChild(history);
     historyContainer.scrollTop = historyContainer.scrollHeight;
     clearButton.click();
-    // totalDisplay.scrollTop = totalDisplay.scrollHeight;
 });
 
 historyContainer.addEventListener(`click`, (e)=> {
