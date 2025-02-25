@@ -97,9 +97,8 @@ equals.addEventListener(`click`, () => {
 
     historyContainer.appendChild(history);
     historyContainer.scrollTop = historyContainer.scrollHeight;
+    clearButton.click();
     // totalDisplay.scrollTop = totalDisplay.scrollHeight;
-
-
 });
 
 historyContainer.addEventListener(`click`, (e)=> {
@@ -133,7 +132,7 @@ function updateAns() {
             resultDisplay.textContent = `E: Division of zero.`;
         } else {
             resultDisplay.textContent = `E: Number too large.`;
-            resultDisplay.scrollLeft = resultDisplay.scrollWidth;
+            // resultDisplay.scrollLeft = resultDisplay.scrollWidth;
         }
 
     } else if (result === "") {
@@ -146,6 +145,13 @@ function updateAns() {
         resultDisplay.scrollLeft = resultDisplay.scrollWidth;
     }
 }
+
+
+function updateExpression() {
+    expressionDisplay.textContent = expressionArr.join(``);
+    expressionDisplay.scrollLeft = expressionDisplay.scrollWidth;
+}
+
 
 
 numbers.forEach(number => { // 0-9
@@ -409,8 +415,3 @@ function cleanNumber(value) {
 }
 
 
-
-function updateExpression() {
-    expressionDisplay.textContent = expressionArr.join(``);
-    expressionDisplay.scrollLeft = expressionDisplay.scrollWidth;
-}
