@@ -47,7 +47,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 10px;
-    background-color: white;
+    background-color: gray;
     /* background-color: black; */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -67,27 +67,51 @@ body {
     flex-direction: column;
     height: 10rem;
     border: 1px solid gray;
+    background-color: #ccc;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
 }
-
 .history {
-    border: 2px solid red;
+
+    /* border: 2px solid red; */
+    border: 1px solid gray;
+
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     height: 2rem;
     font-size: 1.2rem;
+    width: 100%; /* Ensure history container spans full width */
 }
 
 .expression-h {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex: 2;
+    min-width: 40%;
+    max-width: 40%;
+    flex-shrink: 0; 
 }
 .equals-h {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex: 1;
+    min-width: 20%; 
+    max-width: 40%;
+    flex-shrink: 0;
 }
 .ans-h {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex: 2;
+    min-width: 40%;
+    max-width: 40%;
+    flex-shrink: 0;
 }
 
 
@@ -103,6 +127,9 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: white;
+    margin-bottom: 8px;
+    gap: 5px;
 
     padding: 5px;
     /* color: white; */
@@ -113,26 +140,27 @@ body {
     justify-content: flex-end;
     align-items: center;
     font-size: var(--font-size-xxl);
-    height: 5rem;
+    height: 6rem;
     max-width: 28rem;  /* Ensures it fits inside the container */
     border: 1px solid gray;
     padding: 0 10px; /* Prevents text touching edges */
-    white-space: nowrap;   
-    overflow: hidden;         
-    text-overflow: ellipsis;
+    overflow: auto;
+    scrollbar-width: thin;
 }
 
 
 
-.dis.expression-dis {
+.expression-dis {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     font-size: var(--font-size-mid);
     text-align: start;
-    height: 3rem;
+    height: 4rem;
     min-height: 3rem;
     border: 1px solid gray;
+overflow: auto;
+    scrollbar-width: thin;
 }
 
 .dis {

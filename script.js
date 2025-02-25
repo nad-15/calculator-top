@@ -11,7 +11,7 @@ const operators = document.querySelectorAll(`.operators`);
 const modifiers = document.querySelectorAll(`.modifiers`);
 const expressionDisplay = document.querySelector('.expression-dis');
 const resultDisplay = document.querySelector('.result-dis');
-const historyContainer = document.querySelector('.history');
+const historyContainer = document.querySelector('.history-container');
 
 
 let expressionArr = [];
@@ -357,6 +357,7 @@ function updateExpression() {
 
 
 //BUGSSSSSSSSS
+// (-√(9)%)
 // 7%(auto)x click 7 then divid will result to 7%x/
 //9 % click negate result is 9%x
 //check last element if number or no and if number check if % or . is existing
