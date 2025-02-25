@@ -1,7 +1,9 @@
 // TO DO
-// store numbers and pseudo numbers e.g. 7%, (9) as elements
+// store numbers and pseudo numbers e.g. 7%, (9) , sqrt9 as elements
 // do not use isOperator flag anymore-use last element
 //create a regex function that evaluates (-9) as a number and also 9% etc
+//hide history using arrow
+//splice the textCOntent into array,, find the operators then divide it
 
 const equals = document.getElementById('equals');
 const clearButton = document.getElementById('clearButton');
@@ -12,10 +14,20 @@ const modifiers = document.querySelectorAll(`.modifiers`);
 const expressionDisplay = document.querySelector('.expression-dis');
 const resultDisplay = document.querySelector('.result-dis');
 const historyContainer = document.querySelector('.history-container');
+const toggleHis = document.querySelector(`.toggle-history`);
+
+toggleHis.addEventListener(`click`, ()=>{
+    historyContainer.classList.toggle(`toggle`);
+    toggleHis.classList.toggle(`toggle`);
+});
+
+
 
 
 let expressionArr = [];
 let resultArr;
+let historyArr = [];
+let historyIndex = 0 ;
 
 clearButton.addEventListener(`click`, () => {
     expressionArr = [];
@@ -24,14 +36,15 @@ clearButton.addEventListener(`click`, () => {
 });
 
 backspaceButton.addEventListener(`click`, () => {
+    
     let lastElement = expressionArr[expressionArr.length - 1];
     if (!lastElement) return;
 
-    let charArr = lastElement.split(''); 
+    let charArr = lastElement.split('');
 
     for (let i = charArr.length - 1; i >= 0; i--) {
-        if (/\d|%/.test(charArr[i])) { 
-            charArr.splice(i, 1); 
+        if (/\d|%/.test(charArr[i])) {
+            charArr.splice(i, 1);
             break;
         }
     }
@@ -44,25 +57,38 @@ backspaceButton.addEventListener(`click`, () => {
 
     updateExpression();
     updateAns();
+
+    //will force for now will postion this later.. my headache is to much
+    if (expressionArr.length === 0) {
+        resultDisplay.textContent = '0';
+    }
 });
 
 
 
-equals.addEventListener(`click`, ()=>{
-   
+equals.addEventListener(`click`, () => {
+
+    if (expressionArr.length === 0) return;
+
+    historyArr[historyIndex] = [...expressionArr];
+
     const history = document.createElement(`div`);
     history.classList.add(`history`);
+    history.dataset.historyIndex = historyIndex;
+    historyIndex++;
+
+    history.dataset.history = expressionArr;
 
     const expressionHis = document.createElement(`div`);
     expressionHis.classList.add(`expression-h`);
     expressionHis.textContent = expressionArr.join(``);
-    
+
     const equalsHis = document.createElement(`div`);
     equalsHis.classList.add(`equals-h`);
     equalsHis.textContent = "="; // If you want to display an equals sign
-    
+
     const answerHis = document.createElement(`div`);
-    answerHis.classList.add(`answer-h`);
+    answerHis.classList.add(`ans-h`);
     answerHis.textContent = resultArr.join(``);
 
     history.appendChild(expressionHis);
@@ -70,28 +96,54 @@ equals.addEventListener(`click`, ()=>{
     history.appendChild(answerHis);
 
     historyContainer.appendChild(history);
-    
+    historyContainer.scrollTop = historyContainer.scrollHeight;
+    // totalDisplay.scrollTop = totalDisplay.scrollHeight;
+
 
 });
-    
+
+historyContainer.addEventListener(`click`, (e)=> {
+    const history = e.target.closest('.history');
+
+    expressionArr = [...historyArr[history.dataset.historyIndex]];
+    expressionDisplay.textContent = expressionArr.join(``);
+    console.log(expressionArr);
+    updateAns();
+});
+
 
 
 function updateAns() {
+
     evaluateExpression();
     let result = resultArr.join(``);
-    if(!expressionArr.length) return;
 
-    if(result==='NaN'){
-        resultDisplay.textContent = 'Error';
-    } else if (result==='Infinity') {
-        if (expressionArr.join('').includes('÷0')) {
-            resultDisplay.textContent = `Error:/0`;
+
+    
+    if (result === 'NaN') {
+        if (isNaN(expressionArr[expressionArr.length - 1])) {
+            //write in alert div
+            resultDisplay.textContent = '';
         } else {
-            resultDisplay.textContent = `E: Number too large.`;
+            resultDisplay.textContent = 'Error';
         }
 
-    } else {
+    } else if (result === 'Infinity' || result === '-Infinity') {
+        if (expressionArr.join('').includes('÷0')) {
+            resultDisplay.textContent = `E: Division of zero.`;
+        } else {
+            resultDisplay.textContent = `E: Number too large.`;
+            resultDisplay.scrollLeft = resultDisplay.scrollWidth;
+        }
+
+    } else if (result === "") {
+        resultDisplay.textContent = '0';
+        return;
+    }
+    
+    else {
         resultDisplay.textContent = result;
+        resultDisplay.scrollLeft = resultDisplay.scrollWidth;
     }
 }
 
@@ -116,11 +168,12 @@ function getOperator(e) { //+, -, *, /
     let lastElement = expressionArr[expressionArr.length - 1];
 
     if (isNaN(cleanNumber(lastElement))) {
-        expressionArr.pop(); 
+        expressionArr.pop();
     }
 
     expressionArr.push(operator);
     updateExpression();
+    updateAns();
 }
 function getNumber(e) {
     const number = e.target.dataset.value;
@@ -191,20 +244,21 @@ function modifyNum(e) {
         // Negation logic
         if (!expressionArr.length) return;
 
-        if (lastElement.includes(`%`) && lastElement.startsWith('(-')) {
+        if (lastElement.includes(`%`) && lastElement.startsWith('(-')) { //(-9%) forcing this
             expressionArr[expressionArr.length - 1] = (cleanNumber(lastElement) * -100).toString() + `%`;
             console.log(cleanNumber(lastElement));
         }
-        else if (lastElement.startsWith('(-') && lastElement.endsWith(')')) {
-            expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
-        } else if (!isNaN(cleanNumber(lastElement))) {
-            expressionArr[expressionArr.length - 1] = `(-${lastElement})`;
-        } else {
-            return;
-        }
+        else
+            if (lastElement.startsWith('(-') && lastElement.endsWith(')')) {
+                expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
+            } else if (!isNaN(cleanNumber(lastElement))) {
+                expressionArr[expressionArr.length - 1] = `(-${lastElement})`;
+            } else {
+                return;
+            }
         // updateExpression();
 
-        console.log(`entered negation`);
+        // console.log(`entered negation`);
 
     } else if (modifier === `%`) {
         if (isNaN(cleanNumber(lastElement)) || lastElement.includes(`%`)) {
@@ -215,7 +269,8 @@ function modifyNum(e) {
         // updateExpression();
     } else if (modifier === `√`) {
         if (!expressionArr.length) return;
-        if (cleanNumber(lastElement)<0) return;
+        //do not allow negative numbers inside square root for now/ cant handle imaginary numbers yet
+        if (cleanNumber(lastElement) < 0) return;
 
         if (lastElement.startsWith('√(') && lastElement.endsWith(')')) {
             expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
@@ -253,7 +308,7 @@ function evaluateExpression() {
     //resultDisplay here
     resultArr = [...expressionArr];
 
-    let i=1;
+    let i = 1;
     while (i < resultArr.length) {
         if (resultArr[i] === '^') {
             let num1 = cleanNumber(resultArr[i - 1]);
@@ -322,24 +377,30 @@ function performCalculation(num1, operator, num2) {
 }
 
 
-// removes %, (, ), spaces and ,
+
 function cleanNumber(value) {
     let extractedNum = String(value).replace(/[\s,]/g, '').replace(/[π]/g, '3.1416');
-
-    if((extractedNum.startsWith('(')) && extractedNum.endsWith(')')) {
-        return cleanNumber(extractedNum.slice(1, -1))
-    }
+    //debugging
+    // removes %, (, ), spaces and ,
+    //BUGSSSSSSSSS
+    // (-√(9)%)
+    // 7%(auto)x click 7 then divid will result to 7%x/
+    //9 % click negate result is 9%x
+    //check last element if number or no and if number check if % or . is existing
 
     if (extractedNum.startsWith('(-') && extractedNum.endsWith(')')) {
-        return -cleanNumber(extractedNum.slice(2, -1));
+        console.log(`Entered negative` + extractedNum);
+        return cleanNumber(extractedNum.slice(2, -1)) * -1;
     }
 
     if (extractedNum.startsWith('√(') && extractedNum.endsWith(')')) {
+        console.log(`Entered sqrt` + extractedNum);
         let insideValue = cleanNumber(extractedNum.slice(2, -1));
-        return Math.sqrt(insideValue); 
+        return Math.sqrt(insideValue);
     }
 
     if (extractedNum.endsWith('%')) {
+        console.log(`Entered percent` + extractedNum);
         return cleanNumber(extractedNum.slice(0, -1)) / 100;
     }
 
@@ -351,13 +412,5 @@ function cleanNumber(value) {
 
 function updateExpression() {
     expressionDisplay.textContent = expressionArr.join(``);
+    expressionDisplay.scrollLeft = expressionDisplay.scrollWidth;
 }
-
-
-
-
-//BUGSSSSSSSSS
-// (-√(9)%)
-// 7%(auto)x click 7 then divid will result to 7%x/
-//9 % click negate result is 9%x
-//check last element if number or no and if number check if % or . is existing
