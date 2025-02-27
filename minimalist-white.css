@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 5rem;
+}
+
+body {
+
+}
+
+.calc {
+    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+}
+
