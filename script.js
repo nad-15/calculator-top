@@ -36,6 +36,13 @@ clearButton.addEventListener(`click`, () => {
 });
 
 backspaceButton.addEventListener(`click`, () => {
+
+    if(expressionArr[expressionArr.length - 2] === '%'){
+        console.log(`backspace percent`);
+        expressionArr.splice(-2,1);
+        expressionArr[expressionArr.length - 2] += `%`;
+        // return;
+    }
     
     let lastElement = expressionArr[expressionArr.length - 1];
     if (!lastElement) return;
@@ -168,10 +175,8 @@ modifiers.forEach(modifier => { // negate, %, decimal, , x^y, √, pi, 1/x maybe
 function getOperator(e) { //+, -, *, /
     if (!expressionArr.length) return;
 
-
     const operator = e.target.dataset.value;
     let lastElement = expressionArr[expressionArr.length - 1];
-
     if (isNaN(cleanNumber(lastElement))) {
         expressionArr.pop();
     }
@@ -182,13 +187,22 @@ function getOperator(e) { //+, -, *, /
 }
 function getNumber(e) {
     const number = e.target.dataset.value;
+   
+
+    if (String(expressionArr[expressionArr.length-1]).endsWith('%')) {
+        expressionArr[expressionArr.length - 1] = expressionArr[expressionArr.length-1].slice(0, -1);
+        expressionArr.push("%");
+    }
+
     let lastElement = expressionArr[expressionArr.length - 1];
 
-    if (String(lastElement).endsWith(')') || String(lastElement).endsWith('%') || String(lastElement).endsWith('π')) {
+    if (String(lastElement).endsWith(')')  || String(lastElement).endsWith('π')) {
         const multiply = document.getElementById('multiply');
         const event = new Event('click', { bubbles: true });
         multiply.dispatchEvent(event);
     }
+
+
 
     if (number === `0`) {
         // Zero logic
@@ -249,11 +263,11 @@ function modifyNum(e) {
         // Negation logic
         if (!expressionArr.length) return;
 
-        if (lastElement.includes(`%`) && lastElement.startsWith('(-')) { //(-9%) forcing this
-            expressionArr[expressionArr.length - 1] = (cleanNumber(lastElement) * -100).toString() + `%`;
-            console.log(cleanNumber(lastElement));
-        }
-        else
+        // if (lastElement.includes(`%`) && lastElement.startsWith('(-')) { //(-9%) forcing this
+        //     expressionArr[expressionArr.length - 1] = (cleanNumber(lastElement) * -100).toString() + `%`;
+        //     console.log(cleanNumber(lastElement));
+        // }
+        // else
             if (lastElement.startsWith('(-') && lastElement.endsWith(')')) {
                 expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
             } else if (!isNaN(cleanNumber(lastElement))) {
@@ -331,7 +345,7 @@ function evaluateExpression() {
 
     i = 1;
     while (i < resultArr.length) {
-        if (resultArr[i] === '×' || resultArr[i] === '÷') {
+        if (resultArr[i] === '×' || resultArr[i] === '÷' || resultArr[i] === `%`) {
             let num1 = cleanNumber(resultArr[i - 1]);
             let operator = resultArr[i];
             let num2 = cleanNumber(resultArr[i + 1]);
@@ -379,6 +393,7 @@ function performCalculation(num1, operator, num2) {
     if (operator === '+') return num1 + num2;
     if (operator === '-') return num1 - num2;
     if (operator === '^') return Math.pow(num1, num2);
+    if (operator === `%`) return num1 % num2;
 }
 
 
