@@ -55,8 +55,13 @@ body {
 }
 
 .buttons {
-    color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 22%;
+    color: #333;
     background-color: white;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     border: none;
     font-size: 1.5rem;
     /* font-weight: bold; */
