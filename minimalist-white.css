@@ -1,19 +1,39 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    border: 2px solid limegreen;
 }
 
 html {
-    font-size: 5rem;
+    font-size: 16px;
 }
 
 body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-family: 'Roboto Mono', monospace;
 
 }
 
 .calc {
-    border: 2px solid red;
     display: flex;
     flex-direction: column;
+    width: fit-content;
+    height: fit-content;
+}
+
+.row {
+    display: flex;
+}
+
+.buttons {
+    font-size: 1.5rem;
+    height: 3rem;
+    aspect-ratio: 1.5/1;
 }
 
