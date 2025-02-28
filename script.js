@@ -280,7 +280,7 @@ function modifyNum(e) {
         // console.log(`entered negation`);
 
     } else if (modifier === `%`) {
-        if (isNaN(cleanNumber(lastElement)) || lastElement.includes(`%`)) {
+        if (isNaN(cleanNumber(lastElement)) || lastElement.endsWith(`%`)) {
             return;
         }
         console.log(`percent`);
