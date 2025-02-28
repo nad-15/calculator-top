@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    border: 2px solid limegreen;
+    /* border: 2px solid limegreen; */
 }
 
 html {
@@ -10,6 +10,7 @@ html {
 }
 
 body {
+    background: #ccc;;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -17,14 +18,36 @@ body {
     align-items: center;
     font-size: 2rem;
     font-family: 'Roboto Mono', monospace;
-
 }
 
 .calc {
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     width: fit-content;
     height: fit-content;
+}
+
+.toggle-history {
+    background: white;
+    border: none;
+}
+
+.dis {
+    padding: 10px;
+    overflow: auto;
+}
+
+.history-container {
+    height: 6rem;
+}
+
+.expression-dis {
+    /* font-size: rem; */
+}
+
+.result-dis{
+    font-size: 3rem;
 }
 
 .row {
@@ -32,8 +55,16 @@ body {
 }
 
 .buttons {
+    color: green;
+    background-color: white;
+    border: none;
     font-size: 1.5rem;
+    /* font-weight: bold; */
     height: 3rem;
     aspect-ratio: 1.5/1;
+}
+
+.operators {
+    color: red;
 }
 
