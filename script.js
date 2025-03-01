@@ -37,12 +37,6 @@ clearButton.addEventListener(`click`, () => {
 
 backspaceButton.addEventListener(`click`, () => {
 
-    if(expressionArr[expressionArr.length - 2] === '%'){
-        console.log(`backspace percent`);
-        expressionArr.splice(-2,1);
-        expressionArr[expressionArr.length - 2] += `%`;
-        // return;
-    }
     
     let lastElement = expressionArr[expressionArr.length - 1];
     if (!lastElement) return;
@@ -59,7 +53,16 @@ backspaceButton.addEventListener(`click`, () => {
     if (charArr.some(char => /\d/.test(char))) {
         expressionArr[expressionArr.length - 1] = charArr.join('');
     } else {
+
+    if(expressionArr[expressionArr.length - 2] === '%'){
+        console.log(`backspace percent`);
+        expressionArr.splice(-2,1);
+        expressionArr[expressionArr.length - 2] += `%`;
+        // return;
+    }
         expressionArr.pop();
+        
+
     }
 
     updateExpression();
