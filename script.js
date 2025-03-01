@@ -192,7 +192,7 @@ function getNumber(e) {
     const number = e.target.dataset.value;
    
 
-    if (String(expressionArr[expressionArr.length-1]).endsWith('%')) {
+    if (String(expressionArr[expressionArr.length-1]).endsWith('%') && expressionArr[expressionArr.length-1] !== `%`) {
         expressionArr[expressionArr.length - 1] = expressionArr[expressionArr.length-1].slice(0, -1);
         expressionArr.push("%");
     }
@@ -283,7 +283,15 @@ function modifyNum(e) {
         // console.log(`entered negation`);
 
     } else if (modifier === `%`) {
-        if (isNaN(cleanNumber(lastElement)) || lastElement.endsWith(`%`)) {
+        if (isNaN(cleanNumber(lastElement))) {
+            return;
+        }
+        if(lastElement.endsWith(`%`)) {
+            console.log(`last element ends with %`);
+            expressionArr.push('%');
+            //fix later force now
+            updateExpression();
+            updateAns();
             return;
         }
         console.log(`percent`);
