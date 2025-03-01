@@ -54,7 +54,7 @@ backspaceButton.addEventListener(`click`, () => {
         expressionArr[expressionArr.length - 1] = charArr.join('');
     } else {
 
-    if(expressionArr[expressionArr.length - 2] === '%'){
+    if(expressionArr[expressionArr.length - 2] === '%' && !expressionArr[expressionArr.length - 3].endsWith(`%`)){
         console.log(`backspace percent`);
         expressionArr.splice(-2,1);
         expressionArr[expressionArr.length - 2] += `%`;
@@ -284,8 +284,11 @@ function modifyNum(e) {
 
     } else if (modifier === `%`) {
         if (isNaN(cleanNumber(lastElement))) {
+            console.log(`last element is not a number`);
             return;
+
         }
+
         if(lastElement.endsWith(`%`)) {
             console.log(`last element ends with %`);
             expressionArr.push('%');
@@ -430,7 +433,7 @@ function cleanNumber(value) {
         return Math.sqrt(insideValue);
     }
 
-    if (extractedNum.endsWith('%')) {
+    if (extractedNum.endsWith('%') && extractedNum !== `%`) {
         console.log(`Entered percent` + extractedNum);
         return cleanNumber(extractedNum.slice(0, -1)) / 100;
     }
