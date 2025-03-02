@@ -50,23 +50,30 @@ const roastMessages = [
     "I'm calling tech support."
 ];
 
-
 noBtn.addEventListener('click', () => {
     noBtn.style.display = `none`;
     yesBtn.style.display = `none`;
+
     heartImg.style.transition = 'opacity 0.3s ease';
-    heartImg.style.opacity = '0';
     heartText.style.transition = 'opacity 0.3s ease';
+
+    // Fade out
+    heartImg.style.opacity = '0';
     heartText.style.opacity = '0';
 
+    // Swap image and text after fade out, then fade in
     setTimeout(() => {
         heartText.innerHTML = 'You don\'t even know what <br> 1+1 is!!!';
         heartImg.src = 'crying-calc.png';
+
+        // Force reflow to reset transition
+        void heartImg.offsetWidth;
+
         heartImg.style.opacity = '1';
         heartText.style.opacity = '1';
     }, 300);
 
-
+    // Shrink and hide calc after 3 seconds
     setTimeout(() => {
         calcContainer.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
         calcContainer.style.transform = 'scale(0)';
@@ -78,18 +85,17 @@ noBtn.addEventListener('click', () => {
         heartOverlay.style.display = 'none';
     }, 3300);
 
-
-
+    // Start roasting after calc disappears
     setTimeout(() => {
         roastInterval = setInterval(spawnRoastMessage, 1000);
     }, 3300);
 
+    // Enable "Sorry" button listener after roast has been going a bit
     setTimeout(() => {
         document.body.addEventListener('click', showSorryButtonOnce);
     }, 7300);
-
-
 });
+
 
 yesBtn.addEventListener('click', () => {
     const allButtons = Array.from(document.querySelectorAll('.buttons'));
@@ -199,6 +205,7 @@ function showSorryButtonOnce() {
 }
 
 function bringBackCalc() {
+    
     document.body.removeEventListener('click', showSorryButtonOnce);
     sorryBtnShown = false;
     heartText.innerHTML = `You broke my heart 💔.<br>Are you sorry?`;
@@ -207,8 +214,9 @@ function bringBackCalc() {
         btn.disabled = true;
         btn.style.display = 'inline-block';
     });
-    heartOverlay.style.display = 'flex';
+    heartOverlay.style.display = 'none';
     calcContainer.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
     calcContainer.style.transform = 'scale(1)';
     calcContainer.style.opacity = '1';
+
 }
