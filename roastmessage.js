@@ -57,23 +57,23 @@ noBtn.addEventListener('click', () => {
     heartImg.style.transition = 'opacity 0.3s ease';
     heartText.style.transition = 'opacity 0.3s ease';
 
-    // Fade out
+
     heartImg.style.opacity = '0';
     heartText.style.opacity = '0';
 
-    // Swap image and text after fade out, then fade in
+
     setTimeout(() => {
         heartText.innerHTML = 'You don\'t even know what <br> 1+1 is!!!';
         heartImg.src = 'crying-calc.png';
 
-        // Force reflow to reset transition
+
         void heartImg.offsetWidth;
 
         heartImg.style.opacity = '1';
         heartText.style.opacity = '1';
     }, 300);
 
-    // Shrink and hide calc after 3 seconds
+
     setTimeout(() => {
         calcContainer.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
         calcContainer.style.transform = 'scale(0)';
@@ -85,12 +85,11 @@ noBtn.addEventListener('click', () => {
         heartOverlay.style.display = 'none';
     }, 3300);
 
-    // Start roasting after calc disappears
+
     setTimeout(() => {
         roastInterval = setInterval(spawnRoastMessage, 1000);
     }, 3300);
 
-    // Enable "Sorry" button listener after roast has been going a bit
     setTimeout(() => {
         document.body.addEventListener('click', showSorryButtonOnce);
     }, 7300);
@@ -115,7 +114,7 @@ function dropButtonsRandomly(buttons, callback) {
 
     function dropNext() {
         if (buttonsLeft.length === 0) {
-            if (callback) setTimeout(callback, 700); // Wait a bit for the last animation to finish
+            if (callback) setTimeout(callback, 700); 
             return;
         }
 

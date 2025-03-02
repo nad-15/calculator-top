@@ -16,7 +16,7 @@ const resultDisplay = document.querySelector('.result-dis');
 const historyContainer = document.querySelector('.history-container');
 const toggleHis = document.querySelector(`.toggle-history`);
 
-
+//removed right now
 toggleHis.addEventListener(`click`, () => {
     historyContainer.classList.toggle(`toggle`);
     toggleHis.classList.toggle(`toggle`);
