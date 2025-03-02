@@ -91,8 +91,6 @@ noBtn.addEventListener('click', () => {
 
 });
 
-
-
 yesBtn.addEventListener('click', () => {
     const allButtons = Array.from(document.querySelectorAll('.buttons'));
     resetButtons(allButtons);
@@ -102,8 +100,6 @@ yesBtn.addEventListener('click', () => {
     });
 
 });
-
-
 
 
 function dropButtonsRandomly(buttons, callback) {
