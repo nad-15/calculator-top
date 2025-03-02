@@ -25,10 +25,6 @@ This is a dynamic calculator project developed as part of The Odin Project curri
 - Improve UI/UX with animations and custom styling  
 - Refactor and improve code readability
 
-## Live Demo
-
-[Live Demo Link Here]  
-
 ## Acknowledgments
 
 This project is part of The Odin Project's curriculum, which provides free web development education.
