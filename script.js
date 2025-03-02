@@ -55,7 +55,7 @@ backspaceButton.addEventListener(`click`, () => {
     } else {
 
     if(expressionArr[expressionArr.length - 2] === '%' && !expressionArr[expressionArr.length - 3].endsWith(`%`)){
-        console.log(`backspace percent`);
+        // console.log(`backspace percent`);
         expressionArr.splice(-2,1);
         expressionArr[expressionArr.length - 2] += `%`;
         // return;
@@ -110,15 +110,20 @@ equals.addEventListener(`click`, () => {
     clearButton.click();
 });
 
-historyContainer.addEventListener(`click`, (e)=> {
+historyContainer.addEventListener('click', (e) => {
     const history = e.target.closest('.history');
+    if (!history) return;
 
-    expressionArr = [...historyArr[history.dataset.historyIndex]];
-    expressionDisplay.textContent = expressionArr.join(``);
-    console.log(expressionArr);
-    updateAns();
+    const historyIndex = history.dataset.historyIndex;
+
+    if (historyIndex !== undefined) {
+        expressionArr = [...historyArr[historyIndex]];
+        updateExpression();
+        updateAns();
+        console.log("ARRAY NOW IS: " + expressionArr);
+
+    }
 });
-
 
 
 function updateAns() {
@@ -187,6 +192,7 @@ function getOperator(e) { //+, -, *, /
     expressionArr.push(operator);
     updateExpression();
     updateAns();
+    console.log(" ARRAY NOW IS:  "+ expressionArr)
 }
 function getNumber(e) {
     const number = e.target.dataset.value;
@@ -239,7 +245,7 @@ function getNumber(e) {
     }
     updateExpression();
     updateAns();
-    console.log(expressionArr);
+    console.log(" ARRAY NOW IS:  "+ expressionArr)
 }
 
 
@@ -290,14 +296,14 @@ function modifyNum(e) {
         }
 
         if(lastElement.endsWith(`%`)) {
-            console.log(`last element ends with %`);
+            // console.log(`last element ends with %`);
             expressionArr.push('%');
             //fix later force now
             updateExpression();
             updateAns();
             return;
         }
-        console.log(`percent`);
+        // console.log(`percent`);
         expressionArr[expressionArr.length - 1] += modifier;
         // updateExpression();
     } else if (modifier === `√`) {
@@ -334,6 +340,7 @@ function modifyNum(e) {
 
     updateExpression();
     updateAns();
+    console.log(" ARRAY NOW IS:  "+ expressionArr)
 
 }
 
@@ -372,8 +379,8 @@ function evaluateExpression() {
         i += 2;
     }
 
-    console.log(resultArr);
-    console.log(resultArr.length);
+    // console.log(resultArr);
+    // console.log(resultArr.length);
     i = 1;
 
     while (i < resultArr.length) {
@@ -389,9 +396,9 @@ function evaluateExpression() {
             i -= 2;
         }
         i += 2;
-        console.log(`This ${i}`);
-        console.log(`This ${resultArr}`);
-        console.log(`This ${resultArr.length}`);
+        // console.log(`This ${i}`);
+        // console.log(`This ${resultArr}`);
+        // console.log(`This ${resultArr.length}`);
         // max=resultArr.length;
     }
 
@@ -423,18 +430,18 @@ function cleanNumber(value) {
     //check last element if number or no and if number check if % or . is existing
 
     if (extractedNum.startsWith('(-') && extractedNum.endsWith(')')) {
-        console.log(`Entered negative` + extractedNum);
+        // console.log(`Entered negative` + extractedNum);
         return cleanNumber(extractedNum.slice(2, -1)) * -1;
     }
 
     if (extractedNum.startsWith('√(') && extractedNum.endsWith(')')) {
-        console.log(`Entered sqrt` + extractedNum);
+        // console.log(`Entered sqrt` + extractedNum);
         let insideValue = cleanNumber(extractedNum.slice(2, -1));
         return Math.sqrt(insideValue);
     }
 
     if (extractedNum.endsWith('%') && extractedNum !== `%`) {
-        console.log(`Entered percent` + extractedNum);
+        // console.log(`Entered percent` + extractedNum);
         return cleanNumber(extractedNum.slice(0, -1)) / 100;
     }
 
