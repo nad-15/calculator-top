@@ -338,6 +338,7 @@ body {
     white-space: nowrap;
     text-overflow: ellipsis;
     padding: 0 10px;
+    /* border: 2px solid red; */
 }
 
 
@@ -348,6 +349,7 @@ body {
 
 .equals-h {
     flex: 1;
+    display: flex;
     justify-content: center;
 }
 
