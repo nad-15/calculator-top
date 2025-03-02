@@ -16,18 +16,16 @@ const resultDisplay = document.querySelector('.result-dis');
 const historyContainer = document.querySelector('.history-container');
 const toggleHis = document.querySelector(`.toggle-history`);
 
-toggleHis.addEventListener(`click`, ()=>{
+
+toggleHis.addEventListener(`click`, () => {
     historyContainer.classList.toggle(`toggle`);
     toggleHis.classList.toggle(`toggle`);
 });
 
-
-
-
 let expressionArr = [];
 let resultArr;
 let historyArr = [];
-let historyIndex = 0 ;
+let historyIndex = 0;
 
 clearButton.addEventListener(`click`, () => {
     expressionArr = [];
@@ -37,33 +35,34 @@ clearButton.addEventListener(`click`, () => {
 
 backspaceButton.addEventListener(`click`, () => {
 
-    
+
     let lastElement = expressionArr[expressionArr.length - 1];
     if (!lastElement) return;
 
     let charArr = lastElement.split('');
 
     for (let i = charArr.length - 1; i >= 0; i--) {
-        if (/\d|%/.test(charArr[i])) {
+        if (/\d|%|π/.test(charArr[i])) {
             charArr.splice(i, 1);
             break;
         }
     }
 
-    if (charArr.some(char => /\d/.test(char))) {
+    if (charArr.some(char => /\d|π/.test(char))) {
         expressionArr[expressionArr.length - 1] = charArr.join('');
     } else {
 
-    if(expressionArr[expressionArr.length - 2] === '%' && !expressionArr[expressionArr.length - 3].endsWith(`%`)){
-        // console.log(`backspace percent`);
-        expressionArr.splice(-2,1);
-        expressionArr[expressionArr.length - 2] += `%`;
-        // return;
-    }
+        if (expressionArr[expressionArr.length - 2] === '%' && !expressionArr[expressionArr.length - 3].endsWith(`%`)) {
+            // console.log(`backspace percent`);
+            expressionArr.splice(-2, 1);
+            expressionArr[expressionArr.length - 2] += `%`;
+            // return;
+        }
         expressionArr.pop();
-        
+
 
     }
+
 
     updateExpression();
     updateAns();
@@ -120,52 +119,95 @@ historyContainer.addEventListener('click', (e) => {
         expressionArr = [...historyArr[historyIndex]];
         updateExpression();
         updateAns();
-        console.log("ARRAY NOW IS: " + expressionArr);
+        // console.log("ARRAY NOW IS: " + expressionArr);
 
     }
 });
 
 
 function updateAns() {
+    console.log("ARRAY NOW IS: " + expressionArr);
 
     evaluateExpression();
     let result = resultArr.join(``);
 
 
-    
+
     if (result === 'NaN') {
         if (isNaN(expressionArr[expressionArr.length - 1])) {
             //write in alert div
             resultDisplay.textContent = '';
         } else {
-            resultDisplay.textContent = 'Error';
+            resultDisplay.textContent = 'E:Modulo by zero.';
+
+            //put broken heart here IM confuse
+            const allButtons = Array.from(document.querySelectorAll('.buttons'));
+
+            dropButtonsRandomly(allButtons, () => {
+                document.querySelectorAll('.heart-btn').forEach(btn => {
+                    btn.disabled = false;
+                });
+            });
+
         }
 
     } else if (result === 'Infinity' || result === '-Infinity') {
         if (expressionArr.join('').includes('÷0')) {
-            resultDisplay.textContent = `E: Division of zero.`;
+            resultDisplay.textContent = `E:Division of zero.`;
+            //put broken heart
+            const allButtons = Array.from(document.querySelectorAll('.buttons'));
+
+            dropButtonsRandomly(allButtons, () => {
+                document.querySelectorAll('.heart-btn').forEach(btn => {
+                    btn.disabled = false;
+                });
+            });
         } else {
-            resultDisplay.textContent = `E: Number too large.`;
+            resultDisplay.textContent = `E:Number too large.`;
+
             // resultDisplay.scrollLeft = resultDisplay.scrollWidth;
+
+            //put broken heart here Im getting fat!!!!
+            const allButtons = Array.from(document.querySelectorAll('.buttons'));
+
+            dropButtonsRandomly(allButtons, () => {
+                document.querySelectorAll('.heart-btn').forEach(btn => {
+                    btn.disabled = false;
+                });
+            });
         }
 
     } else if (result === "") {
         resultDisplay.textContent = '0';
         return;
     }
-    
+
     else {
         resultDisplay.textContent = result;
-        resultDisplay.scrollLeft = resultDisplay.scrollWidth;
+        // resultDisplay.scrollLeft = resultDisplay.scrollWidth;
     }
 }
 
 
 function updateExpression() {
-    expressionDisplay.textContent = expressionArr.join(``);
+    const coloredExpression = expressionArr.map((element) => {
+        if (
+            element.length === 1 &&
+            isNaN(element) &&
+            element !== '.' &&
+            element !== 'π'
+
+        ) {
+            // return `<span style="color: blue; font-weight: bold;">${element}</span>`;
+            return `<span class = "operator-spacing">${element}</span>`;
+
+        }
+        return element;
+    }).join('');
+
+    expressionDisplay.innerHTML = coloredExpression;
     expressionDisplay.scrollLeft = expressionDisplay.scrollWidth;
 }
-
 
 
 numbers.forEach(number => { // 0-9
@@ -192,20 +234,20 @@ function getOperator(e) { //+, -, *, /
     expressionArr.push(operator);
     updateExpression();
     updateAns();
-    console.log(" ARRAY NOW IS:  "+ expressionArr)
+    // console.log(" ARRAY NOW IS:  " + expressionArr)
 }
 function getNumber(e) {
     const number = e.target.dataset.value;
-   
 
-    if (String(expressionArr[expressionArr.length-1]).endsWith('%') && expressionArr[expressionArr.length-1] !== `%`) {
-        expressionArr[expressionArr.length - 1] = expressionArr[expressionArr.length-1].slice(0, -1);
+
+    if (String(expressionArr[expressionArr.length - 1]).endsWith('%') && expressionArr[expressionArr.length - 1] !== `%`) {
+        expressionArr[expressionArr.length - 1] = expressionArr[expressionArr.length - 1].slice(0, -1);
         expressionArr.push("%");
     }
 
     let lastElement = expressionArr[expressionArr.length - 1];
 
-    if (String(lastElement).endsWith(')')  || String(lastElement).endsWith('π')) {
+    if (String(lastElement).endsWith(')') || String(lastElement).endsWith('π')) {
         const multiply = document.getElementById('multiply');
         const event = new Event('click', { bubbles: true });
         multiply.dispatchEvent(event);
@@ -215,10 +257,24 @@ function getNumber(e) {
 
     if (number === `0`) {
         // Zero logic
+
+
         if (isNaN(lastElement) || lastElement === `0`) {
             if (lastElement === `0`) {
                 expressionArr.pop();
             }
+
+            //repositioning will delete if found no bugs
+            if (lastElement === `÷`) {
+
+            }
+
+
+
+
+
+
+
             expressionArr.push(number);
         } else {
             expressionArr[expressionArr.length - 1] += number;
@@ -245,7 +301,7 @@ function getNumber(e) {
     }
     updateExpression();
     updateAns();
-    console.log(" ARRAY NOW IS:  "+ expressionArr)
+    // console.log(" ARRAY NOW IS:  " + expressionArr)
 }
 
 
@@ -272,30 +328,39 @@ function modifyNum(e) {
         // Negation logic
         if (!expressionArr.length) return;
 
+        //  ill let negative zero slide for now
+        // if(lastElement === `0` || lastElement === `0.`) return;
+
         // if (lastElement.includes(`%`) && lastElement.startsWith('(-')) { //(-9%) forcing this
         //     expressionArr[expressionArr.length - 1] = (cleanNumber(lastElement) * -100).toString() + `%`;
         //     console.log(cleanNumber(lastElement));
         // }
         // else
-            if (lastElement.startsWith('(-') && lastElement.endsWith(')')) {
-                expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
-            } else if (!isNaN(cleanNumber(lastElement))) {
-                expressionArr[expressionArr.length - 1] = `(-${lastElement})`;
-            } else {
-                return;
-            }
+        if (lastElement.startsWith('(-') && lastElement.endsWith(')')) {
+            expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
+        } else if (!isNaN(cleanNumber(lastElement))) {
+            expressionArr[expressionArr.length - 1] = `(-${lastElement})`;
+        } else {
+            return;
+        }
         // updateExpression();
 
         // console.log(`entered negation`);
 
     } else if (modifier === `%`) {
-        if (isNaN(cleanNumber(lastElement))) {
-            console.log(`last element is not a number`);
-            return;
 
+
+        if (!expressionArr.length) return;
+
+        if (isNaN(cleanNumber(lastElement)) && lastElement.length === 1) {
+            expressionArr.pop();
+            expressionArr.push(`%`);
+            updateExpression();
+            updateAns();
+            return;
         }
 
-        if(lastElement.endsWith(`%`)) {
+        if (lastElement.endsWith(`%`)) {
             // console.log(`last element ends with %`);
             expressionArr.push('%');
             //fix later force now
@@ -340,7 +405,7 @@ function modifyNum(e) {
 
     updateExpression();
     updateAns();
-    console.log(" ARRAY NOW IS:  "+ expressionArr)
+    // console.log(" ARRAY NOW IS:  " + expressionArr)
 
 }
 
@@ -448,5 +513,4 @@ function cleanNumber(value) {
     let number = Number(extractedNum);
     return isNaN(number) ? NaN : number;
 }
-
 

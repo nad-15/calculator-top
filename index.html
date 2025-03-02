@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Calculator</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- <link rel="stylesheet" href="minimalist-white.css"> -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <link rel="stylesheet" href="minimalist-white.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
@@ -18,18 +18,40 @@
         <button class="toggle-history">
             <span class="material-symbols-outlined historybtn">
                 keyboard_double_arrow_down</span>
-            </button>
+        </button>
         <div class="expression-result-container">
-            <div class="history-container dis">
+            <div class="history-container">
                 <!-- insert history -->
             </div>
-            <div class="dis result-dis">0</div>
-            <div class="dis expression-dis">0</div>
-            <!-- remove zero here after styling -->
+            <div class="dis">
+                <div class="result-dis">0</div>
+                <div class="expression-dis"></div>
+            </div>
 
+            <!-- remove zero here after styling -->
         </div>
 
+        <div class="spacer"></div>
+
         <div class="buttons-container">
+
+            <!-- Overlay container -->
+            <div class="heart-overlay">
+                <div class="broken-heart-bg">
+                    <img src="broken-heart-calc.png" alt="Broken Heart">
+                </div>
+
+                <div class="heart-message">
+                    <div class="heart-text">You broke my heart 💔.<br>Are you sorry?</div>
+                    <div class="heart-options">
+                        <button class="heart-btn yes" disabled>Yes</button>
+                        <button class="heart-btn no" disabled>No</button>                        
+                    </div>
+                </div>
+            </div>
+
+
+
             <!-- First row -->
             <div class="first-row row">
                 <button class="buttons clear" id="clearButton" data-value="C">C</button>
@@ -75,7 +97,7 @@
                 <button class="buttons modifiers decimal-point" id="decimal-point" data-value=".">.</button>
                 <button class="buttons numbers pi" id="pi" data-value="π">π</button>
                 <button class="buttons operators pow" id="pow" data-value="^">xʸ</button>
-                <button class="buttons equals" id="equals" data-value="=">=</button>
+                <button class="buttons equals" id="equals" data-value="="><span class="equals-symbol">=</span></button>
             </div>
 
 
@@ -83,6 +105,7 @@
         </div>
 
     </div>
+    <script src="roastmessage.js"></script>
     <script src="script.js"></script>
 </body>
 

@@ -280,6 +280,12 @@ body {
     background-color: rgb(160, 97, 2);
 }
 
+.operator-spacing {
+    color: red;
+    font-weight: bold;
+    padding: 0 2px;
+}
+
 .operators:hover {
     background-color: #d4840d; 
     transform: scale(1.05);
@@ -293,6 +299,7 @@ body {
 .modifiers {
     background-color: gray;
 }
+
 
 .modifiers:hover {
     background-color: #666; 
