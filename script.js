@@ -413,7 +413,7 @@ function performCalculation(num1, operator, num2) {
 
 
 function cleanNumber(value) {
-    let extractedNum = String(value).replace(/[\s,]/g, '').replace(/[π]/g, '3.1416');
+    let extractedNum = String(value).replace(/[\s,]/g, '').replace(/[π]/g, Math.PI);
     //debugging
     // removes %, (, ), spaces and ,
     //BUGSSSSSSSSS
