@@ -239,19 +239,26 @@ function getNumber(e) {
     if (number === 'π') {
         if (!isNaN(cleanNumber(lastElement))) {
             document.getElementById('multiply').dispatchEvent(new Event(`click`, { bubbles: true }));
-        }
-        expressionArr.push(number);
+        } 
+
         
+
+
+
+        expressionArr.push(number);
+
     } else { // Real numbers 0-9
         if (isNaN(cleanNumber(lastElement)) || lastElement === `0`) {
             if (lastElement === `0`) {
                 return;
             }
             expressionArr.push(number);
+
         } else {
             expressionArr[expressionArr.length - 1] += number;
         }
     }
+
     console.log(" ARRAY NOW IS:  "+ expressionArr)
     updateExpression();
     updateAns();
