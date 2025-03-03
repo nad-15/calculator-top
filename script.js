@@ -52,7 +52,10 @@ backspaceButton.addEventListener(`click`, () => {
         expressionArr[expressionArr.length - 1] = charArr.join('');
     } else {
 
-        if (expressionArr[expressionArr.length - 2] === '%' && !expressionArr[expressionArr.length - 3].endsWith(`%`)) {
+        if (
+            expressionArr[expressionArr.length - 2] === '%' &&
+            !expressionArr[expressionArr.length - 3].endsWith(`%`)
+         ) {
             // console.log(`backspace percent`);
             expressionArr.splice(-2, 1);
             expressionArr[expressionArr.length - 2] += `%`;
@@ -139,7 +142,6 @@ function updateAns() {
             resultDisplay.textContent = '';
         } else {
             resultDisplay.textContent = 'E:Modulo by zero.';
-
             //put broken heart here IM confuse
             const allButtons = Array.from(document.querySelectorAll('.buttons'));
 
@@ -153,7 +155,7 @@ function updateAns() {
 
     } else if (result === 'Infinity' || result === '-Infinity') {
         if (expressionArr.join('').includes('÷0')) {
-            resultDisplay.textContent = `E:Division of zero.`;
+            resultDisplay.textContent = `E:Division by zero.`;
             //put broken heart
             const allButtons = Array.from(document.querySelectorAll('.buttons'));
 
@@ -240,14 +242,20 @@ function getNumber(e) {
     const number = e.target.dataset.value;
 
 
-    if (String(expressionArr[expressionArr.length - 1]).endsWith('%') && expressionArr[expressionArr.length - 1] !== `%`) {
+    if (
+        String(expressionArr[expressionArr.length - 1]).endsWith('%') &&
+        expressionArr[expressionArr.length - 1] !== `%`
+     ) {
         expressionArr[expressionArr.length - 1] = expressionArr[expressionArr.length - 1].slice(0, -1);
         expressionArr.push("%");
     }
 
     let lastElement = expressionArr[expressionArr.length - 1];
 
-    if (String(lastElement).endsWith(')') || String(lastElement).endsWith('π')) {
+    if (
+        String(lastElement).endsWith(')') || 
+        String(lastElement).endsWith('π')
+     ) {
         const multiply = document.getElementById('multiply');
         const event = new Event('click', { bubbles: true });
         multiply.dispatchEvent(event);
@@ -310,7 +318,15 @@ function modifyNum(e) {
     const modifier = e.target.dataset.value;
     let lastElement = expressionArr[expressionArr.length - 1];
 
-    if ((String(lastElement).endsWith(')') || String(lastElement).endsWith('%') || String(lastElement).endsWith('π')) && (modifier !== `%` && modifier !== `±` && modifier !== `√`)) {
+    if (
+        (String(lastElement).endsWith(')') || 
+        String(lastElement).endsWith('%') || 
+        String(lastElement).endsWith('π')) && 
+        (modifier !== `%` && 
+        modifier !== `±` && 
+        modifier !== `√`)
+     ) {
+
         const multiply = document.getElementById('multiply');
         const event = new Event('click', { bubbles: true });
         multiply.dispatchEvent(event);
@@ -336,7 +352,9 @@ function modifyNum(e) {
         //     console.log(cleanNumber(lastElement));
         // }
         // else
-        if (lastElement.startsWith('(-') && lastElement.endsWith(')')) {
+        if (lastElement.startsWith('(-') 
+            && lastElement.endsWith(')')
+         ) {
             expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
         } else if (!isNaN(cleanNumber(lastElement))) {
             expressionArr[expressionArr.length - 1] = `(-${lastElement})`;
@@ -352,7 +370,9 @@ function modifyNum(e) {
 
         if (!expressionArr.length) return;
 
-        if (isNaN(cleanNumber(lastElement)) && lastElement.length === 1) {
+        if (isNaN(cleanNumber(lastElement)) 
+            && lastElement.length === 1
+         ) {
             expressionArr.pop();
             expressionArr.push(`%`);
             updateExpression();
@@ -376,7 +396,9 @@ function modifyNum(e) {
         //do not allow negative numbers inside square root for now/ cant handle imaginary numbers yet
         if (cleanNumber(lastElement) < 0) return;
 
-        if (lastElement.startsWith('√(') && lastElement.endsWith(')')) {
+        if (lastElement.startsWith('√(') && 
+            lastElement.endsWith(')')
+         ) {
             expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
         } else if (!isNaN(cleanNumber(lastElement))) {
             // I need to force this display/ somehting wrong with values being number
@@ -431,7 +453,10 @@ function evaluateExpression() {
 
     i = 1;
     while (i < resultArr.length) {
-        if (resultArr[i] === '×' || resultArr[i] === '÷' || resultArr[i] === `%`) {
+        if (resultArr[i] === '×' || 
+            resultArr[i] === '÷' || 
+            resultArr[i] === `%`
+         ) {
             let num1 = cleanNumber(resultArr[i - 1]);
             let operator = resultArr[i];
             let num2 = cleanNumber(resultArr[i + 1]);
@@ -449,7 +474,9 @@ function evaluateExpression() {
     i = 1;
 
     while (i < resultArr.length) {
-        if (resultArr[i] === '+' || resultArr[i] === '-') {
+        if (resultArr[i] === '+' || 
+            resultArr[i] === '-'
+         ) {
             let num1 = cleanNumber(resultArr[i - 1]);
             let operator = resultArr[i];
             let num2 = cleanNumber(resultArr[i + 1]);
@@ -461,10 +488,7 @@ function evaluateExpression() {
             i -= 2;
         }
         i += 2;
-        // console.log(`This ${i}`);
-        // console.log(`This ${resultArr}`);
-        // console.log(`This ${resultArr.length}`);
-        // max=resultArr.length;
+
     }
 
     resultArr[0] = cleanNumber(resultArr[0]);
@@ -483,7 +507,7 @@ function performCalculation(num1, operator, num2) {
 }
 
 
-
+//Im proud of this function
 function cleanNumber(value) {
     let extractedNum = String(value).replace(/[\s,]/g, '').replace(/[π]/g, Math.PI);
     //debugging
@@ -491,10 +515,12 @@ function cleanNumber(value) {
     //BUGSSSSSSSSS
     // (-√(9)%)
     // 7%(auto)x click 7 then divid will result to 7%x/
-    //9 % click negate result is 9%x
+    //9 % click negate result is 9% x
     //check last element if number or no and if number check if % or . is existing
 
-    if (extractedNum.startsWith('(-') && extractedNum.endsWith(')')) {
+    if (extractedNum.startsWith('(-') && 
+        extractedNum.endsWith(')')
+     ) {
         // console.log(`Entered negative` + extractedNum);
         return cleanNumber(extractedNum.slice(2, -1)) * -1;
     }
