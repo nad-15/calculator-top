@@ -55,7 +55,7 @@ backspaceButton.addEventListener(`click`, () => {
         if (
             expressionArr[expressionArr.length - 2] === '%' &&
             !expressionArr[expressionArr.length - 3].endsWith(`%`)
-         ) {
+        ) {
             // console.log(`backspace percent`);
             expressionArr.splice(-2, 1);
             expressionArr[expressionArr.length - 2] += `%`;
@@ -245,7 +245,7 @@ function getNumber(e) {
     if (
         String(expressionArr[expressionArr.length - 1]).endsWith('%') &&
         expressionArr[expressionArr.length - 1] !== `%`
-     ) {
+    ) {
         expressionArr[expressionArr.length - 1] = expressionArr[expressionArr.length - 1].slice(0, -1);
         expressionArr.push("%");
     }
@@ -253,9 +253,9 @@ function getNumber(e) {
     let lastElement = expressionArr[expressionArr.length - 1];
 
     if (
-        String(lastElement).endsWith(')') || 
+        String(lastElement).endsWith(')') ||
         String(lastElement).endsWith('π')
-     ) {
+    ) {
         const multiply = document.getElementById('multiply');
         const event = new Event('click', { bubbles: true });
         multiply.dispatchEvent(event);
@@ -319,13 +319,13 @@ function modifyNum(e) {
     let lastElement = expressionArr[expressionArr.length - 1];
 
     if (
-        (String(lastElement).endsWith(')') || 
-        String(lastElement).endsWith('%') || 
-        String(lastElement).endsWith('π')) && 
-        (modifier !== `%` && 
-        modifier !== `±` && 
-        modifier !== `√`)
-     ) {
+        (String(lastElement).endsWith(')') ||
+            String(lastElement).endsWith('%') ||
+            String(lastElement).endsWith('π')) &&
+        (modifier !== `%` &&
+            modifier !== `±` &&
+            modifier !== `√`)
+    ) {
 
         const multiply = document.getElementById('multiply');
         const event = new Event('click', { bubbles: true });
@@ -352,9 +352,9 @@ function modifyNum(e) {
         //     console.log(cleanNumber(lastElement));
         // }
         // else
-        if (lastElement.startsWith('(-') 
+        if (lastElement.startsWith('(-')
             && lastElement.endsWith(')')
-         ) {
+        ) {
             expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
         } else if (!isNaN(cleanNumber(lastElement))) {
             expressionArr[expressionArr.length - 1] = `(-${lastElement})`;
@@ -370,9 +370,9 @@ function modifyNum(e) {
 
         if (!expressionArr.length) return;
 
-        if (isNaN(cleanNumber(lastElement)) 
+        if (isNaN(cleanNumber(lastElement))
             && lastElement.length === 1
-         ) {
+        ) {
             expressionArr.pop();
             expressionArr.push(`%`);
             updateExpression();
@@ -396,9 +396,9 @@ function modifyNum(e) {
         //do not allow negative numbers inside square root for now/ cant handle imaginary numbers yet
         if (cleanNumber(lastElement) < 0) return;
 
-        if (lastElement.startsWith('√(') && 
+        if (lastElement.startsWith('√(') &&
             lastElement.endsWith(')')
-         ) {
+        ) {
             expressionArr[expressionArr.length - 1] = lastElement.slice(2, -1);
         } else if (!isNaN(cleanNumber(lastElement))) {
             // I need to force this display/ somehting wrong with values being number
@@ -453,10 +453,10 @@ function evaluateExpression() {
 
     i = 1;
     while (i < resultArr.length) {
-        if (resultArr[i] === '×' || 
-            resultArr[i] === '÷' || 
+        if (resultArr[i] === '×' ||
+            resultArr[i] === '÷' ||
             resultArr[i] === `%`
-         ) {
+        ) {
             let num1 = cleanNumber(resultArr[i - 1]);
             let operator = resultArr[i];
             let num2 = cleanNumber(resultArr[i + 1]);
@@ -474,12 +474,21 @@ function evaluateExpression() {
     i = 1;
 
     while (i < resultArr.length) {
-        if (resultArr[i] === '+' || 
+        if (resultArr[i] === '+' ||
             resultArr[i] === '-'
-         ) {
+        ) {
             let num1 = cleanNumber(resultArr[i - 1]);
+            let num2;
+            // console.log(String(resultArr[i + 1]));
+            if (String(resultArr[i + 1]).endsWith('%')) {
+                num2 = cleanNumber(resultArr[i+1]) * num1;
+           } else {
+                num2 = cleanNumber(resultArr[i + 1]);
+            }
+
+
             let operator = resultArr[i];
-            let num2 = cleanNumber(resultArr[i + 1]);
+
 
             let result = performCalculation(num1, operator, num2);
 
@@ -518,9 +527,9 @@ function cleanNumber(value) {
     //9 % click negate result is 9% x
     //check last element if number or no and if number check if % or . is existing
 
-    if (extractedNum.startsWith('(-') && 
+    if (extractedNum.startsWith('(-') &&
         extractedNum.endsWith(')')
-     ) {
+    ) {
         // console.log(`Entered negative` + extractedNum);
         return cleanNumber(extractedNum.slice(2, -1)) * -1;
     }
