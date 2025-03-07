@@ -477,19 +477,12 @@ function evaluateExpression() {
         if (resultArr[i] === '+' ||
             resultArr[i] === '-'
         ) {
-            let num1 = cleanNumber(resultArr[i - 1]);
-            let num2;
-            // console.log(String(resultArr[i + 1]));
-            if (String(resultArr[i + 1]).endsWith('%')) {
-                num2 = cleanNumber(resultArr[i+1]) * num1;
-           } else {
-                num2 = cleanNumber(resultArr[i + 1]);
-            }
-
-
-            let operator = resultArr[i];
-
-
+            const operator = resultArr[i];
+            const num1 = cleanNumber(resultArr[i - 1]);
+            let num2 = String(resultArr[i + 1]).endsWith('%')
+            ? num1 * cleanNumber(resultArr[i + 1])
+            : cleanNumber(resultArr[i + 1]);
+        
             let result = performCalculation(num1, operator, num2);
 
             // resultArr[i - 1] = result;
