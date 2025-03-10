@@ -431,6 +431,35 @@ function modifyNum(e) {
 
 }
 
+
+////recursive function MDAS solver-START
+
+// function evaluateExpression(operatorList) {
+//     resultArr = [...expressionArr];
+
+//     let i = 1;
+//     while (i < resultArr.length) {
+//         if (operatorList.includes(resultArr[i])) {
+//             const operator = resultArr[i];
+//             const num1 = cleanNumber(resultArr[i - 1]);
+//             let num2 = (String(resultArr[i + 1]).endsWith('%') && ['+', '-'].includes(operator))
+//             ? num1 * cleanNumber(resultArr[i + 1])
+//             : cleanNumber(resultArr[i + 1]);
+
+//             let result = performCalculation(num1, operator, num2);
+
+//             resultArr.splice(i - 1, 3, result);
+//             i -= 2;
+//         }
+//         i += 2;
+//     }
+
+//     evaluateExpression(operatorList);
+// }
+
+////recursive function MDAS solver-END
+
+
 function evaluateExpression() {
     //resultDisplay here
     resultArr = [...expressionArr];
