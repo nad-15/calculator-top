@@ -430,7 +430,7 @@ function modifyNum(e) {
 }
 
 //recursive function MDAS solver-START
-let operatorList = [['^'], ['×' , '÷' , '%'], ['+', '-']]
+let operatorList = [['^'], ['×', '÷', '%'], ['+', '-']]
 
 function evaluateExpression(opIndex) {
 
@@ -445,8 +445,8 @@ function evaluateExpression(opIndex) {
             const operator = resultArr[i];
             const num1 = cleanNumber(resultArr[i - 1]);
             let num2 = (String(resultArr[i + 1]).endsWith('%') && ['+', '-'].includes(operator))
-            ? num1 * cleanNumber(resultArr[i + 1])
-            : cleanNumber(resultArr[i + 1]);
+                ? num1 * cleanNumber(resultArr[i + 1])
+                : cleanNumber(resultArr[i + 1]);
 
             let result = performCalculation(num1, operator, num2);
 
@@ -455,7 +455,9 @@ function evaluateExpression(opIndex) {
         }
         i += 2;
     }
-        evaluateExpression(opIndex + 1);
+    console.log("RESULT ARR NOW IS: " + resultArr);
+
+    evaluateExpression(opIndex + 1);
 }
 
 //recursive function MDAS solver-END
@@ -510,9 +512,9 @@ function evaluateExpression2() {
             const operator = resultArr[i];
             const num1 = cleanNumber(resultArr[i - 1]);
             let num2 = String(resultArr[i + 1]).endsWith('%')
-            ? num1 * cleanNumber(resultArr[i + 1])
-            : cleanNumber(resultArr[i + 1]);
-        
+                ? num1 * cleanNumber(resultArr[i + 1])
+                : cleanNumber(resultArr[i + 1]);
+
             let result = performCalculation(num1, operator, num2);
 
             // resultArr[i - 1] = result;
