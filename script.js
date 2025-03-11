@@ -130,11 +130,9 @@ historyContainer.addEventListener('click', (e) => {
 
 function updateAns() {
     console.log("ARRAY NOW IS: " + expressionArr);
-
-    evaluateExpression();
+    resultArr = [...expressionArr];
+    evaluateExpression(0);
     let result = resultArr.join(``);
-
-
 
     if (result === 'NaN') {
         if (isNaN(expressionArr[expressionArr.length - 1])) {
@@ -431,40 +429,39 @@ function modifyNum(e) {
 
 }
 
+//recursive function MDAS solver-START
+let operatorList = [['^'], ['×' , '÷' , '%'], ['+', '-']]
 
-// //recursive function MDAS solver-START
+function evaluateExpression(opIndex) {
 
-// function evaluateExpression2(operatorList) {
-//     resultArr = [...expressionArr];
+    if (opIndex >= operatorList.length) {
+        resultArr[0] = cleanNumber(resultArr[0]);
+        return;
+    }
 
-//     let i = 1;
-//     while (i < resultArr.length) {
-//         if (operatorList[opIndex].includes(resultArr[i])) {
-//             const operator = resultArr[i];
-//             const num1 = cleanNumber(resultArr[i - 1]);
-//             let num2 = (String(resultArr[i + 1]).endsWith('%') && ['+', '-'].includes(operator))
-//             ? num1 * cleanNumber(resultArr[i + 1])
-//             : cleanNumber(resultArr[i + 1]);
+    let i = 1;
+    while (i < resultArr.length) {
+        if (String(operatorList[opIndex]).includes(resultArr[i])) {
+            const operator = resultArr[i];
+            const num1 = cleanNumber(resultArr[i - 1]);
+            let num2 = (String(resultArr[i + 1]).endsWith('%') && ['+', '-'].includes(operator))
+            ? num1 * cleanNumber(resultArr[i + 1])
+            : cleanNumber(resultArr[i + 1]);
 
-//             let result = performCalculation(num1, operator, num2);
+            let result = performCalculation(num1, operator, num2);
 
-//             resultArr.splice(i - 1, 3, result);
-//             i -= 2;
-//         }
-//         i += 2;
-//     }
-//     if(){
-//         evaluateExpression(['×' , '÷' , '%']);
-//     } else {
-//         resultArr[0] = cleanNumber(resultArr[0]);
-//     }
+            resultArr.splice(i - 1, 3, result);
+            i -= 2;
+        }
+        i += 2;
+    }
+        evaluateExpression(opIndex + 1);
+}
 
-// }
-
-// //recursive function MDAS solver-END
+//recursive function MDAS solver-END
 
 
-function evaluateExpression() {
+function evaluateExpression2() {
     //resultDisplay here
     resultArr = [...expressionArr];
 
