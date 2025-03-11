@@ -432,14 +432,14 @@ function modifyNum(e) {
 }
 
 
-////recursive function MDAS solver-START
+// //recursive function MDAS solver-START
 
-// function evaluateExpression(operatorList) {
+// function evaluateExpression2(operatorList) {
 //     resultArr = [...expressionArr];
 
 //     let i = 1;
 //     while (i < resultArr.length) {
-//         if (operatorList.includes(resultArr[i])) {
+//         if (operatorList[opIndex].includes(resultArr[i])) {
 //             const operator = resultArr[i];
 //             const num1 = cleanNumber(resultArr[i - 1]);
 //             let num2 = (String(resultArr[i + 1]).endsWith('%') && ['+', '-'].includes(operator))
@@ -453,11 +453,15 @@ function modifyNum(e) {
 //         }
 //         i += 2;
 //     }
+//     if(){
+//         evaluateExpression(['×' , '÷' , '%']);
+//     } else {
+//         resultArr[0] = cleanNumber(resultArr[0]);
+//     }
 
-//     evaluateExpression(operatorList);
 // }
 
-////recursive function MDAS solver-END
+// //recursive function MDAS solver-END
 
 
 function evaluateExpression() {
