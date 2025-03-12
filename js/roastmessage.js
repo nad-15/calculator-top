@@ -64,7 +64,7 @@ noBtn.addEventListener('click', () => {
 
     setTimeout(() => {
         heartText.innerHTML = 'You don\'t even know what <br> 1+1 is!!!';
-        heartImg.src = 'crying-calc.png';
+        heartImg.src = 'images/crying-calc.png';
 
 
         void heartImg.offsetWidth;
@@ -147,7 +147,7 @@ function spawnRoastMessage() {
     roast.classList.add('roast-message');
 
     const roastImg = document.createElement('img');
-    roastImg.src = 'talking-calc.png'; 
+    roastImg.src = 'images/talking-calc.png'; 
     roastImg.alt = 'Talking Calc';
     roastImg.classList.add('roast-avatar');
 
@@ -176,7 +176,7 @@ function showSorryButtonOnce() {
     sorryPopup.classList.add('sorry-popup');
     
     sorryPopup.innerHTML = `
-        <img src="muscle-calc.png" alt="masculine calc">
+        <img src="images/muscle-calc.png" alt="masculine calc">
         <div>Say sorry to continue!</div>
         <input type="text" placeholder="Type 'sorry'...">
         <button>Submit</button>
@@ -208,7 +208,7 @@ function bringBackCalc() {
     document.body.removeEventListener('click', showSorryButtonOnce);
     sorryBtnShown = false;
     heartText.innerHTML = `You broke my heart 💔.<br>Are you sorry?`;
-    heartImg.src = 'broken-heart-calc.png';
+    heartImg.src = 'images/broken-heart-calc.png';
     document.querySelectorAll('.heart-btn').forEach(btn => {
         btn.disabled = true;
         btn.style.display = 'inline-block';
