@@ -32,6 +32,10 @@ body {
 
 }
 
+.heart-overlay {
+    display: none;
+}
+
 .calc {
 
     display: flex;

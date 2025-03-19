@@ -4,7 +4,11 @@ const noBtn = document.querySelector('.heart-btn.no');
 const heartImg = document.querySelector('.broken-heart-bg img');
 const heartText = document.querySelector(`.heart-text`);
 const heartOverlay = document.querySelector(`.heart-overlay`);
+const stylesheets = document.querySelectorAll(`link[rel=stylesheet]`);
 
+
+const classicStyle = Array.from(stylesheets).some(sheet => sheet.href && sheet.href.includes(`styles.css`));
+console.log(classicStyle);
 let roastInterval;
 let sorryBtnShown = false;
 
@@ -108,6 +112,8 @@ yesBtn.addEventListener('click', () => {
 
 
 function dropButtonsRandomly(buttons, callback) {
+
+    if(classicStyle) return;
     heartOverlay.style.display = 'flex';
     const buttonsLeft = [...buttons];
     let totalDelay = 0;
