@@ -275,12 +275,6 @@ function getNumber(e) {
 
             }
 
-
-
-
-
-
-
             expressionArr.push(number);
         } else {
             expressionArr[expressionArr.length - 1] += number;
@@ -526,7 +520,6 @@ function evaluateExpression2() {
     }
 
     resultArr[0] = cleanNumber(resultArr[0]);
-    // resultArr[0] = (-(-9)/100);
 
 }
 
